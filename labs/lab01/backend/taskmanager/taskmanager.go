@@ -5,13 +5,10 @@ import (
 	"time"
 )
 
+// Predefined errors
 var (
-	// ErrTaskNotFound is returned when a task is not found
 	ErrTaskNotFound = errors.New("task not found")
-	// ErrEmptyTitle is returned when the task title is empty
-	ErrEmptyTitle = errors.New("task title cannot be empty")
-	// ErrInvalidID is returned when the task ID is invalid
-	ErrInvalidID = errors.New("invalid task ID")
+	ErrEmptyTitle   = errors.New("title cannot be empty")
 )
 
 // Task represents a single task
@@ -25,25 +22,25 @@ type Task struct {
 
 // TaskManager manages a collection of tasks
 type TaskManager struct {
-	tasks  map[int]*Task
+	tasks  map[int]Task
 	nextID int
 }
 
 // NewTaskManager creates a new task manager
 func NewTaskManager() *TaskManager {
-	// TODO: Implement task manager initialization
+	// TODO: Implement this function
 	return &TaskManager{
-		tasks:  make(map[int]*Task),
+		tasks:  make(map[int]Task),
 		nextID: 1,
 	}
 }
 
 // AddTask adds a new task to the manager
-func (tm *TaskManager) AddTask(title, description string) (*Task, error) {
+func (tm *TaskManager) AddTask(title, description string) (Task, error) {
 	if title == "" {
 		return nil, ErrEmptyTitle
 	}
-	var task = &Task{
+	var task = Task{
 		ID:          tm.nextID,
 		Title:       title,
 		Description: description,
@@ -66,7 +63,7 @@ func (tm *TaskManager) UpdateTask(id int, title, description string, done bool) 
 		task.Done = done
 		return nil
 	}
-	return ErrInvalidID
+	return ErrTaskNotFound
 }
 
 // DeleteTask removes a task from the manager
@@ -79,7 +76,7 @@ func (tm *TaskManager) DeleteTask(id int) error {
 }
 
 // GetTask retrieves a task by ID
-func (tm *TaskManager) GetTask(id int) (*Task, error) {
+func (tm *TaskManager) GetTask(id int) (Task, error) {
 	if task, ok := tm.tasks[id]; ok {
 		return task, nil
 	}
@@ -87,8 +84,8 @@ func (tm *TaskManager) GetTask(id int) (*Task, error) {
 }
 
 // ListTasks returns all tasks, optionally filtered by done status
-func (tm *TaskManager) ListTasks(filterDone *bool) []*Task {
-	filteredTask := make([]*Task, 5)
+func (tm *TaskManager) ListTasks(filterDone *bool) []Task {
+	filteredTask := make([]Task, 5)
 	for _, task := range tm.tasks {
 		if task.Done == *filterDone {
 			filteredTask = append(filteredTask, task)

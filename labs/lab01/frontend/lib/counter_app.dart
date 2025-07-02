@@ -30,24 +30,43 @@ class _CounterAppState extends State<CounterApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-            children: <Widget>[
-              Text('$_counter'),
-              IconButton(
-                onPressed: _decrement,
-                icon: const Icon(Icons.remove),
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Counter App'),
+        actions: [
               IconButton(
                 onPressed: _reset,
                 icon: const Icon(Icons.refresh),
-              ),
-              IconButton(
-                onPressed: _increment,
-                icon: const Icon(Icons.add),
-              ),
-            ]
-        )
+              )
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '$_counter',
+              style: const TextStyle(fontSize: 48),
+            ),
+            const SizedBox(height: 32),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // TODO: add a decrement button with Icon(Icons.remove) and onPressed: _decrementCounter
+                IconButton(
+                  onPressed: _reset,
+                  icon: const Icon(Icons.refresh),
+                ),
+                const SizedBox(width: 32),
+                IconButton(
+                  onPressed: _increment,
+                  icon: const Icon(Icons.add),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

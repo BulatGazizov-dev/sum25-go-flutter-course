@@ -13,8 +13,6 @@ class _RegistrationFormState extends State<RegistrationForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  String _message = " ";
-
   @override
   void dispose() {
     _nameController.dispose();
@@ -25,69 +23,76 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      setState(() {
-        _message = 'Registration successful!';
-      });
-    } else {
-      _message = ' ';
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Registration successful!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      _formKey.currentState!.reset();
     }
-  }
-
-  String? _validateEmail(String? value) {
-    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
-    if (value == null || value.isEmpty || !emailRegex.hasMatch(value)) {
-      return 'Please enter a valid email';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty || value.length < 6) {
-      return 'Password must be at least 6 characters';
-    }
-    return null;
-  }
-
-  String? _validateName(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your name';
-    }
-    return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Registration Form'),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
             key: _formKey,
             child: Column(
-                children: <Widget>[
-                  TextFormField(
-                      key: const Key('name'),
-                      validator: _validateName
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextFormField(
+                  key: const Key('name'),
+                  // TODO: use _nameController
+                  decoration: const InputDecoration(
+                    labelText: 'Name',
+                    hintText: 'Enter your name',
                   ),
-                  TextFormField(
-                      key: const Key('email'),
-                      validator: _validateEmail
+                  validator: (value) {
+                    // TODO: validate if value is not null or empty and return 'Please enter your name'
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  key: const Key('email'),
+                  // TODO: use _emailController
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    hintText: 'Enter your email',
                   ),
-                  TextFormField(
-                    key: const Key('password'),
-                    controller: _passwordController,
-                    decoration: InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                    validator: _validatePassword,
+                  validator: (value) {
+                    // TODO: validate if value is not null or empty and it match word@word.word, return 'Please enter a valid email'
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  key: const Key('password'),
+                  // TODO: use _passwordController
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                    hintText: 'Enter your password',
                   ),
-                  TextButton(
-                    onPressed: _submitForm,
-                    child: const Text('Submit'),
-                  ),
-                  if (_message.isNotEmpty)
-                    Text(
-                      _message,
-                    ),
-                ])
-        )
+                  obscureText: true,
+                  validator: (value) {
+                    // TODO: validate if value is not null or empty and it has at least 6 characters, return 'Password must be at least 6 characters'
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 32),
+                // TODO: add a ElevatedButton with onPressed: _submitForm and child: Text('Submit')
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
