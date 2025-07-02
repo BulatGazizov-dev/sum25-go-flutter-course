@@ -10,19 +10,19 @@ class CounterApp extends StatefulWidget {
 class _CounterAppState extends State<CounterApp> {
   int _counter = 0;
 
-  void _increment() {
+  void _incrementCounter() {
     setState(() {
       _counter++;
     });
   }
 
-  void _decrement() {
+  void _decrementCounter() {
     setState(() {
       _counter--;
     });
   }
 
-  void _reset() {
+  void _resetCounter() {
     setState(() {
       _counter = 0;
     });
@@ -34,10 +34,10 @@ class _CounterAppState extends State<CounterApp> {
       appBar: AppBar(
         title: const Text('Counter App'),
         actions: [
-              IconButton(
-                onPressed: _reset,
-                icon: const Icon(Icons.refresh),
-              )
+          IconButton(
+            onPressed: _resetCounter,
+            icon: const Icon(Icons.refresh),
+          )
         ],
       ),
       body: Center(
@@ -52,15 +52,14 @@ class _CounterAppState extends State<CounterApp> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // TODO: add a decrement button with Icon(Icons.remove) and onPressed: _decrementCounter
-                IconButton(
-                  onPressed: _reset,
-                  icon: const Icon(Icons.refresh),
+                FloatingActionButton.large(
+                  onPressed: _decrementCounter,
+                  child: const Icon(Icons.remove),
                 ),
                 const SizedBox(width: 32),
-                IconButton(
-                  onPressed: _increment,
-                  icon: const Icon(Icons.add),
+                FloatingActionButton.large(
+                  onPressed: _incrementCounter,
+                  child: const Icon(Icons.add),
                 )
               ],
             ),

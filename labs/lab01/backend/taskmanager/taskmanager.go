@@ -38,7 +38,7 @@ func NewTaskManager() *TaskManager {
 // AddTask adds a new task to the manager
 func (tm *TaskManager) AddTask(title, description string) (Task, error) {
 	if title == "" {
-		return nil, ErrEmptyTitle
+		return Task{}, ErrEmptyTitle
 	}
 	var task = Task{
 		ID:          tm.nextID,
@@ -61,6 +61,7 @@ func (tm *TaskManager) UpdateTask(id int, title, description string, done bool) 
 		task.Title = title
 		task.Description = description
 		task.Done = done
+		tm.tasks[id] = task
 		return nil
 	}
 	return ErrTaskNotFound
@@ -80,16 +81,18 @@ func (tm *TaskManager) GetTask(id int) (Task, error) {
 	if task, ok := tm.tasks[id]; ok {
 		return task, nil
 	}
-	return nil, ErrTaskNotFound
+	return Task{}, ErrTaskNotFound
 }
 
 // ListTasks returns all tasks, optionally filtered by done status
 func (tm *TaskManager) ListTasks(filterDone *bool) []Task {
-	filteredTask := make([]Task, 5)
+	filteredTasks := []Task{}
+
 	for _, task := range tm.tasks {
-		if task.Done == *filterDone {
-			filteredTask = append(filteredTask, task)
+		if filterDone == nil || task.Done == *filterDone {
+			filteredTasks = append(filteredTasks, task)
 		}
 	}
-	return filteredTask
+
+	return filteredTasks
 }
