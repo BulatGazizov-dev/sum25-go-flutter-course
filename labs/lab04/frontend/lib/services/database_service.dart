@@ -88,9 +88,8 @@ class DatabaseService {
   // TODO: Implement updateUser method
   static Future<User> updateUser(int id, Map<String, dynamic> updates) async {
     final db = await database;
-    updates['updated_at'] = currentTimeInSeconds();
+    updates['updated_at'] = currentTimeInSeconds().toString();
     await db.update("users", updates, where: "id = ?", whereArgs: [id]);
-
     return (await getUser(id))!;
   }
 
@@ -110,7 +109,7 @@ class DatabaseService {
   // TODO: Implement searchUsers method
   static Future<List<User>> searchUsers(String query) async {
     final db = await database;
-    final result = await db.query('users', where: "name LIKE ? OR email LIKE ?", whereArgs: [query, query]);
+    final result = await db.query('users', where: "name LIKE ? OR email LIKE ?", whereArgs: ['%$query%', '%$query%']);
     return result.map((json) => User.fromJson(json)).toList();
   }
 
