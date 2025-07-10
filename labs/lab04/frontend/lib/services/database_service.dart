@@ -25,14 +25,14 @@ class DatabaseService {
 
   // TODO: Implement _onCreate method
   static Future<void> _onCreate(Database db, int version) async {
-    await db.execute("CREATE users TABLE("
+    await db.execute("CREATE TABLE users("
         "id INTEGER PRIMARY KEY AUTOINCREMENT,"
         "name VARCHAR(25) NOT NULL,"
         "email VARCHAR(25) NOT NULL,"
         "created_at INTEGER NOT NULL,"
         "updated_at INTEGER NOT NULL"
         ")");
-    await db.execute("CREATE posts TABLE("
+    await db.execute("CREATE TABLE posts("
         "id INTEGER PRIMARY KEY AUTOINCREMENT,"
         "user_id INTEGER NOT NULL,"
         "title VARCHAR(25) NOT NULL,"
