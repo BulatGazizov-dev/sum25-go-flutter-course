@@ -37,9 +37,9 @@ class DatabaseService {
         "user_id INTEGER NOT NULL,"
         "title VARCHAR(25) NOT NULL,"
         "content TEXT NOT NULL,"
-        "published BOOLEAN NOT NULL"
-        "created_at INTEGER NOT NULL"
-        "updated_at INTEGER NOT NULL"
+        "published BOOLEAN NOT NULL,"
+        "created_at INTEGER NOT NULL,"
+        "updated_at INTEGER NOT NULL,"
         "FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE"
         ")");
   }
