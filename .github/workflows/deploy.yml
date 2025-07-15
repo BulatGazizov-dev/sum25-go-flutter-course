@@ -1,7 +1,9 @@
 name: Deploy Flutter Web to GitHub Pages
 
 on:
-  # TODO: Add condition
+  push:
+    branches:
+      - lab07-gazizov-bulat
     
   workflow_dispatch:
 
